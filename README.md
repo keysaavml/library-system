@@ -13,4 +13,4 @@ Simple Library Information System
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/USERNAME/library-system.git
+   git clone git clone https://github.com/keysa-keysa/library-system.git
