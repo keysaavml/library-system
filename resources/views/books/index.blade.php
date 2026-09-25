@@ -1,21 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Daftar Buku</title>
-</head>
-<body>
+<h1>Daftar Buku</h1>
 
-    <h1>Daftar Buku</h1>
+<table border="1" cellpadding="10">
+    <tr>
+        <th>ID</th>
+        <th>Judul</th>
+        <th>Penulis</th>
+        <th>Tahun Terbit</th>
+        <th>Stok</th>
+    </tr>
 
     @foreach($books as $book)
-        <div>
-            <h3>{{ $book->title }}</h3>
-            <p>Penulis: {{ $book->author }}</p>
-            <p>Tahun Terbit: {{ $book->year }}</p>
-            <p>Stok: {{ $book->stock }}</p>
-            <hr>
-        </div>
+    <tr>
+        <td>{{ $book->id }}</td>
+        <td>{{ $book->title }}</td>
+        <td>{{ $book->author }}</td>
+        <td>{{ $book->year }}</td>
+        <td>{{ $book->stock }}</td>
+    </tr>
     @endforeach
-
-</body>
-</html>
+</table>
