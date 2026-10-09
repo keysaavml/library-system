@@ -1,31 +1,76 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Http\Controllers;
 
-return new class extends Migration
+use App\Models\Book;
+use Illuminate\Http\Request;
+
+class BookController extends Controller
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    // Menampilkan daftar buku
+    public function index()
     {
-        Schema::create('books', function (Blueprint $table) {
-    $table->id();
-    $table->string('title');
-    $table->string('author');
-    $table->year('year');
-    $table->integer('stock');
-    $table->timestamps();
-});
+        $books = Book::all();
+
+        return view('books.index', compact('books'));
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    // Menampilkan form tambah buku
+    public function create()
     {
-        Schema::dropIfExists('books');
+        return view('books.create');
     }
-};
+
+    // Menyimpan buku baru
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'year' => 'required|integer|min:1|max:9999',
+            'stock' => 'required|integer|min:0',
+        ]);
+
+        Book::create($validated);
+
+        return redirect()->route('books.index')
+            ->with('success', 'Buku berhasil ditambahkan.');
+    }
+
+    // Menampilkan detail buku
+    public function show(Book $book)
+    {
+        return view('books.show', compact('book'));
+    }
+
+    // Menampilkan form edit
+    public function edit(Book $book)
+    {
+        return view('books.edit', compact('book'));
+    }
+
+    // Memperbarui buku
+    public function update(Request $request, Book $book)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'year' => 'required|integer|min:1|max:9999',
+            'stock' => 'required|integer|min:0',
+        ]);
+
+        $book->update($validated);
+
+        return redirect()->route('books.index')
+            ->with('success', 'Buku berhasil diperbarui.');
+    }
+
+    // Menghapus buku
+    public function destroy(Book $book)
+    {
+        $book->delete();
+
+        return redirect()->route('books.index')
+            ->with('success', 'Buku berhasil dihapus.');
+    }
+}
