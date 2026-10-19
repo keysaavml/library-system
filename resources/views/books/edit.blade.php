@@ -10,11 +10,14 @@
     <h1>Edit Buku</h1>
 
     @if ($errors->any())
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+        <div style="color: red;">
+            <strong>Periksa kembali input kamu:</strong>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     <form action="{{ route('books.update', $book->id) }}" method="POST">
@@ -25,26 +28,38 @@
             <label>Judul Buku</label><br>
             <input type="text" name="title"
                    value="{{ old('title', $book->title) }}" required>
+            @error('title')
+                <br><span style="color: red;">{{ $message }}</span>
+            @enderror
         </p>
 
         <p>
             <label>Penulis</label><br>
             <input type="text" name="author"
                    value="{{ old('author', $book->author) }}" required>
+            @error('author')
+                <br><span style="color: red;">{{ $message }}</span>
+            @enderror
         </p>
 
         <p>
             <label>Tahun Terbit</label><br>
             <input type="number" name="year"
                    value="{{ old('year', $book->year) }}"
-                   min="1" max="9999" required>
+                   min="1900" max="{{ date('Y') }}" required>
+            @error('year')
+                <br><span style="color: red;">{{ $message }}</span>
+            @enderror
         </p>
 
         <p>
             <label>Stok</label><br>
             <input type="number" name="stock"
                    value="{{ old('stock', $book->stock) }}"
-                   min="0" required>
+                   min="0" max="10000" required>
+            @error('stock')
+                <br><span style="color: red;">{{ $message }}</span>
+            @enderror
         </p>
 
         <button type="submit">Simpan Perubahan</button>
