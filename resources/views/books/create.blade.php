@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -68,12 +69,30 @@
             <label>Stok</label><br>
             <input type="number"
                    name="stock"
-                   value="{{ old('stock') }}"
+                   value="{{ old('stock', 0) }}"
                    min="0"
                    max="10000"
                    required>
 
             @error('stock')
+                <br><span style="color: red;">{{ $message }}</span>
+            @enderror
+        </p>
+
+        <p>
+            <label for="category_id">Kategori</label><br>
+            <select name="category_id" id="category_id" required>
+                <option value="">-- Pilih Kategori --</option>
+
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}"
+                        @selected(old('category_id') == $category->id)>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+
+            @error('category_id')
                 <br><span style="color: red;">{{ $message }}</span>
             @enderror
         </p>

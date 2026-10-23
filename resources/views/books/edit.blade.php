@@ -62,6 +62,24 @@
             @enderror
         </p>
 
+        <p>
+            <label for="category_id">Kategori</label><br>
+            <select name="category_id" id="category_id" required>
+                <option value="">-- Pilih Kategori --</option>
+
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}"
+                        @selected(old('category_id', $book->category_id) == $category->id)>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+
+            @error('category_id')
+                <br><span style="color: red;">{{ $message }}</span>
+            @enderror
+        </p>
+
         <button type="submit">Simpan Perubahan</button>
     </form>
 
