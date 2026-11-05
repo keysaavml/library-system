@@ -42,15 +42,17 @@
 
                         <a href="{{ route('books.edit', $book->id) }}">Edit</a>
 
-                        <form action="{{ route('books.destroy', $book->id) }}"
-                              method="POST"
-                              style="display: inline;"
-                              onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
-                            @csrf
-                            @method('DELETE')
+                       @can('delete', $book)
+    <form action="{{ route('books.destroy', $book->id) }}"
+          method="POST"
+          style="display: inline;"
+          onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
+        @csrf
+        @method('DELETE')
 
-                            <button type="submit">Hapus</button>
-                        </form>
+        <button type="submit">Hapus</button>
+    </form>
+@endcan
                     </td>
                 </tr>
             @empty
